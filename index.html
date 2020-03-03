@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE-edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kasir Jadi-Jadian 2018-128</title>
+  <link rel="stylesheet" href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+  &nbsp;&nbsp;NAMA PESANAN : <input type="text" id="pesan" class="form-control" style="width: 300px">
+  &nbsp;&nbsp;JUMLAH ORDER : <input type="text" id="jumlah" class="form-control" style="width: 50px;"> <br>
+  &nbsp;&nbsp;HARGA PORSI : <input type="text" id="priceItem" class="form-control" style="width: 300px;"> <br>
+  <button onclick="masuktabel()" class="btn btn-secondary">Tambahkan</button>
+  <button onclick="totalharga()" class="btn btn-primary">Total</button>
+  <button onclick="totalbayar()" class="btn btn-success">Harga Bayar</button>
+  <br>&nbsp
+  <table id="tabel" class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>Pesanan</th>
+        <th>Jumlah</th>
+        <th>Harga @porsi</th>
+        <th>Harga</th>
+      </tr>
+    </thead>
+    <tr>
+      <td colspan="3" align="right">Total</td>
+      <td id="isitotal"></td>
+    </tr>
+    <tr>
+      <td colspan="3" align="right">
+        <select onchange="if (this.selectedIndex==2) openmembership(); else nonmember();" class="custom-select"
+          style="width: min-content;">
+          <option selected>Klik untuk status Member</option>
+          <option>Bukan Member</option>
+          <option>Member</option>
+        </select>
+      </td>
+      <td id="diskonmember"></td>
+    </tr>
+    <tr>
+      <td colspan="3" align="right">
+        <button onclick="week()" class="btn btn-info">Cek Hari</button>
+      </td>
+      <td id="dischari"></td>
+    </tr>
+    <tr>
+      <td colspan="3" align="right">
+        Total Bayar
+      </td>
+      <td id="totaldibayar"></td>
+    </tr>
+  </table>
+
+  <script>
+    var totalperpesanane = [];
+    var jum = 1;
+    var totalharganya = 0;
+    var disc = 0;
+    var hargadiskon = 0;
+    function masuktabel() {
+      var pesanan = document.getElementById("pesan").value;
+      var jumlahpes = document.getElementById("jumlah").value;
+      var hargaMenu = document.getElementById("priceItem").value;
+      var tabell = tabel.insertRow(jum);
+      var cell1 = tabell.insertCell(0);
+      var cell2 = tabell.insertCell(1);
+      var cell3 = tabell.insertCell(2);
+      var cell4 = tabell.insertCell(3);
+      var totalperpesan = (parseInt(hargaMenu)) * (parseInt(jumlahpes));
+      cell1.innerHTML = pesanan;
+      cell2.innerHTML = jumlahpes;
+      cell3.innerHTML = hargaMenu;
+      cell4.innerHTML = totalperpesan;
+      totalperpesanane[jum - 1] = totalperpesan;
+      jum++;
+    }
+    function totalharga() {
+      totalharganya = 0;
+      for (var i = 0; i < totalperpesanane.length; i++) {
+        totalharganya = totalharganya + totalperpesanane[i];
+      }
+      document.getElementById("isitotal").innerHTML = totalharganya;
+    }
+    function openmembership() {
+      hargadiskon = (totalharganya * (5 / 100));
+      document.getElementById("diskonmember").innerHTML = hargadiskon;
+    }
+    function nonmember() {
+      hargadiskon = 0;
+      document.getElementById("diskonmember").innerHTML = hargadiskon;
+    }
+    function week() {
+      var d = new Date();
+      var n = d.getDay();
+      if (n == 6 || n == 0) {
+        disc = (totalharganya * (5 / 100));
+      }
+      document.getElementById("dischari").innerHTML = disc;
+    }
+
+    function totalbayar() {
+      var totbay = (totalharganya - (disc + hargadiskon));
+      document.getElementById("totaldibayar").innerHTML = totbay;
+    }
+  </script>
+
+  <footer class="copyright text-center">
+    <p>&copy; 2015 onphpid.com</p>
+  </footer>
+  <script src="vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
